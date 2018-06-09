@@ -4,6 +4,11 @@
 
 namespace em = emscripten;
 
+
+float lerp(float a, float b, float t) {
+    return (1 - t) * a + t * b;
+}
+
 EMSCRIPTEN_BINDINGS(wisardpkg)
 {
 
@@ -37,11 +42,13 @@ EMSCRIPTEN_BINDINGS(wisardpkg)
     // ;
 
     // models
+    em::function("lerp", &lerp);
+
     em::class_<Wisard>("Wisard")
       .constructor<int>()
-      //.function("train", (void (Wisard::*)(const vector<vector<int>>&, const vector<string>&)) &Wisard::train)
+      .function("train", (void (Wisard::*)(const std::vector<vector<int>>&, const vector<string>&)) &Wisard::train)
       //.function("classify", (em::list (Wisard::*)(const vector<vector<int>>&, em::kwargs)) &Wisard::classify)
-      //.function("getMentalImages", &Wisard::getMentalImages)
+      .function("getMentalImages", &Wisard::getMentalImages)
     ;
 
     // em::class_<ClusWisard>(m, "ClusWisard")

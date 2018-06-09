@@ -3,4 +3,5 @@
 
 #compiled
 dist/*
-test/*
+test/wisard.js
+test/wisard.wasm
