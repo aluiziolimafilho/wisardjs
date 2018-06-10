@@ -74,6 +74,17 @@ public:
     return Bleaching::make(allvotes, bleachingActivated, searchBestConfidence);
   }
 
+  vector<string> classify(const vector<vector<int>>& images){
+    bool searchBestConfidence = false;
+    vector<string> labels(images.size());
+    for(unsigned int i=0; i<images.size(); i++){
+      if(verbose) cout << "\rclassifying " << i+1 << " of " << images.size();
+      map<string,int> candidates = classify(images[i],searchBestConfidence);
+      labels[i] = Bleaching::getBiggestCandidate(candidates);
+    }
+    return labels;
+  }
+
   // py::list classify(const vector<vector<int>>& images, py::kwargs kwargs){
   //   bool searchBestConfidence=false;
   //   bool returnConfidence=false;

@@ -5,13 +5,15 @@
 namespace em = emscripten;
 
 
-float lerp(float a, float b, float t) {
-    return (1 - t) * a + t * b;
-}
-
 EMSCRIPTEN_BINDINGS(wisardpkg)
 {
+    // basic types
+    em::register_vector<string>("VectorStr");
+    em::register_vector<int>("VectorInt");
 
+    // complex types
+    em::register_vector<vector<int>>("MatrixInt");
+    em::register_map<string,vector<int>>("MentalImage");
     // binarizations
     // em::class_<KernelCanvas>(m, "KernelCanvas")
     //   .def(em::init<int, int>())
@@ -42,12 +44,10 @@ EMSCRIPTEN_BINDINGS(wisardpkg)
     // ;
 
     // models
-    em::function("lerp", &lerp);
-
     em::class_<Wisard>("Wisard")
       .constructor<int>()
-      .function("train", (void (Wisard::*)(const std::vector<vector<int>>&, const vector<string>&)) &Wisard::train)
-      //.function("classify", (em::list (Wisard::*)(const vector<vector<int>>&, em::kwargs)) &Wisard::classify)
+      .function("train", (void (Wisard::*)(const vector<vector<int>>&, const vector<string>&)) &Wisard::train)
+      .function("classify", (vector<string> (Wisard::*)(const vector<vector<int>>&)) &Wisard::classify)
       .function("getMentalImages", &Wisard::getMentalImages)
     ;
 
