@@ -8,6 +8,8 @@
 
 using namespace std;
 
+namespace em = emscripten;
+
 class Wisard{
 public:
   Wisard(int addressSize): addressSize(addressSize){
@@ -17,6 +19,20 @@ public:
     completeAddressing=true;
     indexes=vector<int>(0);
     base=2;
+    srand(randint(0,1000000));
+  }
+  Wisard(int addressSize, em::val kwargs): addressSize(addressSize){
+    bleachingActivated=true;
+    verbose=false;
+    ignoreZero=false;
+    completeAddressing=true;
+    indexes=vector<int>(0);
+    base=2;
+    srand(randint(0,1000000));
+
+    if(kwargs.hasOwnProperty("verbose")){
+      verbose = kwargs["verbose"].as<bool>();
+    }
   }
   // Wisard(int addressSize, py::kwargs kwargs): addressSize(addressSize){
   //   bleachingActivated=true;
@@ -26,7 +42,6 @@ public:
   //   indexes=vector<int>(0);
   //   base=2;
   //
-  //   srand(randint(0,1000000));
   //   for(auto arg: kwargs){
   //     if(string(py::str(arg.first)).compare("bleachingActivated") == 0)
   //       bleachingActivated = arg.second.cast<bool>();

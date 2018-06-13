@@ -46,6 +46,7 @@ EMSCRIPTEN_BINDINGS(wisardpkg)
     // models
     em::class_<Wisard>("Wisard")
       .constructor<int>()
+      .constructor<int, em::val>()
       .function("train", (void (Wisard::*)(const vector<vector<int>>&, const vector<string>&)) &Wisard::train)
       .function("classify", (vector<string> (Wisard::*)(const vector<vector<int>>&)) &Wisard::classify)
       .function("getMentalImages", &Wisard::getMentalImages)
