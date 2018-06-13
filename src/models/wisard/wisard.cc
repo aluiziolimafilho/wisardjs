@@ -33,6 +33,10 @@ public:
     if(kwargs.hasOwnProperty("verbose")){
       verbose = kwargs["verbose"].as<bool>();
     }
+
+    if(kwargs.hasOwnProperty("indexes")){
+      indexes = em::vecFromJSArray<int>(kwargs["indexes"]);
+    }
   }
   // Wisard(int addressSize, py::kwargs kwargs): addressSize(addressSize){
   //   bleachingActivated=true;
