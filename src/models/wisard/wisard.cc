@@ -21,7 +21,8 @@ public:
     base=2;
     srand(randint(0,1000000));
   }
-  Wisard(int addressSize, em::val kwargs): addressSize(addressSize){
+
+  Wisard(int addressSize, const em::val& kwargs): addressSize(addressSize){
     bleachingActivated=true;
     verbose=false;
     ignoreZero=false;
@@ -33,39 +34,22 @@ public:
     if(kwargs.hasOwnProperty("verbose")){
       verbose = kwargs["verbose"].as<bool>();
     }
-
+    if(kwargs.hasOwnProperty("bleachingActivated")){
+      bleachingActivated = kwargs["bleachingActivated"].as<bool>();
+    }
+    if(kwargs.hasOwnProperty("ignoreZero")){
+      ignoreZero = kwargs["ignoreZero"].as<bool>();
+    }
+    if(kwargs.hasOwnProperty("completeAddressing")){
+      completeAddressing = kwargs["completeAddressing"].as<bool>();
+    }
+    if(kwargs.hasOwnProperty("base")){
+      base = kwargs["base"].as<int>();
+    }
     if(kwargs.hasOwnProperty("indexes")){
       indexes = em::vecFromJSArray<int>(kwargs["indexes"]);
     }
   }
-  // Wisard(int addressSize, py::kwargs kwargs): addressSize(addressSize){
-  //   bleachingActivated=true;
-  //   verbose=false;
-  //   ignoreZero=false;
-  //   completeAddressing=true;
-  //   indexes=vector<int>(0);
-  //   base=2;
-  //
-  //   for(auto arg: kwargs){
-  //     if(string(py::str(arg.first)).compare("bleachingActivated") == 0)
-  //       bleachingActivated = arg.second.cast<bool>();
-  //
-  //     if(string(py::str(arg.first)).compare("verbose") == 0)
-  //       verbose = arg.second.cast<bool>();
-  //
-  //     if(string(py::str(arg.first)).compare("ignoreZero") == 0)
-  //       ignoreZero = arg.second.cast<bool>();
-  //
-  //     if(string(py::str(arg.first)).compare("completeAddressing") == 0)
-  //       completeAddressing = arg.second.cast<bool>();
-  //
-  //     if(string(py::str(arg.first)).compare("indexes") == 0)
-  //       indexes = arg.second.cast<vector<int>>();
-  //
-  //     if(string(py::str(arg.first)).compare("base") == 0)
-  //       base = arg.second.cast<int>();
-  //   }
-  // }
 
   void train(const vector<int>& image, const string& label){
     if(discriminators.find(label) == discriminators.end()){
@@ -74,7 +58,10 @@ public:
     discriminators[label].train(image);
   }
 
-  void train(const vector<vector<int>>& images, const vector<string>& labels){
+  void train(const em::val& images_val, const em::val& labels_val){
+    vector<string> labels = em::vecFromJSArray<string>(labels_val);
+    vector<vector<int>> images = matrixFromJSMatrix<int>(images_val);
+
     checkInputSizes(images.size(), labels.size());
     for(unsigned int i=0; i<images.size(); i++){
       if(verbose) cout << "\rtraining " << i+1 << " of " << images.size();
@@ -93,9 +80,12 @@ public:
     return Bleaching::make(allvotes, bleachingActivated, searchBestConfidence);
   }
 
-  vector<string> classify(const vector<vector<int>>& images){
-    bool searchBestConfidence = false;
+  vector<string> classify(const em::val& images_val){
+
+    vector<vector<int>> images = matrixFromJSMatrix<int>(images_val);
     vector<string> labels(images.size());
+    bool searchBestConfidence = false;
+    
     for(unsigned int i=0; i<images.size(); i++){
       if(verbose) cout << "\rclassifying " << i+1 << " of " << images.size();
       map<string,int> candidates = classify(images[i],searchBestConfidence);
