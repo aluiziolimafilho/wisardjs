@@ -12,17 +12,7 @@ namespace em = emscripten;
 
 class Wisard{
 public:
-  Wisard(int addressSize): addressSize(addressSize){
-    bleachingActivated=true;
-    verbose=false;
-    ignoreZero=false;
-    completeAddressing=true;
-    indexes=vector<int>(0);
-    base=2;
-    srand(randint(0,1000000));
-  }
-
-  Wisard(int addressSize, const em::val& kwargs): addressSize(addressSize){
+  Wisard(int addressSize, const em::val& kwargs=em::val::object()): addressSize(addressSize){
     bleachingActivated=true;
     verbose=false;
     ignoreZero=false;
@@ -85,7 +75,7 @@ public:
     vector<vector<int>> images = matrixFromJSMatrix<int>(images_val);
     vector<string> labels(images.size());
     bool searchBestConfidence = false;
-    
+
     for(unsigned int i=0; i<images.size(); i++){
       if(verbose) cout << "\rclassifying " << i+1 << " of " << images.size();
       map<string,int> candidates = classify(images[i],searchBestConfidence);

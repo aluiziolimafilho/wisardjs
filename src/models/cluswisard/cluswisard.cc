@@ -9,11 +9,11 @@
 
 using namespace std;
 
-namespace py = pybind11;
+namespace em = emscripten;
 
 class ClusWisard{
 public:
-  ClusWisard(int addressSize, float minScore, int threshold, int discriminatorsLimit, py::kwargs kwargs):
+  ClusWisard(int addressSize, float minScore, int threshold, int discriminatorsLimit, const em::val& kwargs=em::val::object()):
     addressSize(addressSize), minScore(minScore), threshold(threshold), discriminatorsLimit(discriminatorsLimit)
   {
       srand(randint(0,1000000));
@@ -25,21 +25,24 @@ public:
 
       checkConfigInputs(minScore, threshold, discriminatorsLimit);
 
-      for(auto arg: kwargs){
-        if(string(py::str(arg.first)).compare("bleachingActivated") == 0)
-          bleachingActivated = arg.second.cast<bool>();
+      if(kwargs.hasOwnProperty("verbose")){
+        verbose = kwargs["verbose"].as<bool>();
+      }
 
-        if(string(py::str(arg.first)).compare("verbose") == 0)
-          verbose = arg.second.cast<bool>();
+      if(kwargs.hasOwnProperty("bleachingActivated")){
+        bleachingActivated = kwargs["bleachingActivated"].as<bool>();
+      }
 
-        if(string(py::str(arg.first)).compare("ignoreZero") == 0)
-          ignoreZero = arg.second.cast<bool>();
+      if(kwargs.hasOwnProperty("ignoreZero")){
+        ignoreZero = kwargs["ignoreZero"].as<bool>();
+      }
 
-        if(string(py::str(arg.first)).compare("completeAddressing") == 0)
-          completeAddressing = arg.second.cast<bool>();
+      if(kwargs.hasOwnProperty("completeAddressing")){
+        completeAddressing = kwargs["completeAddressing"].as<bool>();
+      }
 
-        if(string(py::str(arg.first)).compare("base") == 0)
-          base = arg.second.cast<int>();
+      if(kwargs.hasOwnProperty("base")){
+        base = kwargs["base"].as<int>();
       }
   }
 

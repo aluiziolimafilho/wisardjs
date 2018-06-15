@@ -15,33 +15,34 @@ EMSCRIPTEN_BINDINGS(wisardpkg)
     em::register_vector<vector<int>>("MatrixInt");
     em::register_map<string,vector<int>>("MentalImage");
     // binarizations
-    // em::class_<KernelCanvas>(m, "KernelCanvas")
-    //   .def(em::init<int, int>())
-    //   .def(em::init<int, int, int>())
-    //   .def("show", &KernelCanvas::show)
-    //   .def("__call__", (vector<int>& (KernelCanvas::*)(const vector<int>&)) &KernelCanvas::operator())
-    //   .def("__call__", (vector<vector<int>>& (KernelCanvas::*)(const vector<vector<int>>&)) &KernelCanvas::operator())
+    // em::class_<KernelCanvas>("KernelCanvas")
+    //   .constructor<int, int>()
+    //   .constructor<int, int, int>()
+    //   .function("show", &KernelCanvas::show)
+    //   .function("__call__", (vector<int>& (KernelCanvas::*)(const vector<int>&)) &KernelCanvas::operator())
+    //   .function("__call__", (vector<vector<int>>& (KernelCanvas::*)(const vector<vector<int>>&)) &KernelCanvas::operator())
     // ;
     //
-    // em::class_<AverageEntry>(m, "AverageEntry")
-    //   .def(em::init())
-    //   .def("__call__", (vector<int>& (AverageEntry::*)(const vector<int>&)) &AverageEntry::operator())
-    //   .def("__call__", (vector<double>& (AverageEntry::*)(const vector<double>&)) &AverageEntry::operator())
+    // em::class_<AverageEntry>("AverageEntry")
+    //   .constructor()
+    //   .function("__call__", (vector<int>& (AverageEntry::*)(const vector<int>&)) &AverageEntry::operator())
+    //   .function("__call__", (vector<double>& (AverageEntry::*)(const vector<double>&)) &AverageEntry::operator())
     // ;
     //
     // //sythesizer
-    // em::class_<Synthesizer>(m, "Synthesizer")
-    //   .def(em::init<vector<int>>())
-    //   .def("make", &Synthesizer::make)
+    // em::class_<Synthesizer>("Synthesizer")
+    //   .constructor<vector<int>>()
+    //   .function("make", &Synthesizer::make)
     // ;
     //
     // //base to models
-    // em::class_<Discriminator>(m, "Discriminator")
-    //   .def(em::init<int,int,em::kwargs>())
-    //   .def("train", (void (Discriminator::*)(const vector<int>&)) &Discriminator::train)
-    //   .def("train", (void (Discriminator::*)(const vector<vector<int>>&)) &Discriminator::train)
-    //   .def("classify", &Discriminator::getVotes)
-    // ;
+    em::class_<Discriminator>("Discriminator")
+      .constructor<int,int>()
+      .constructor<int,int,const em::val&>()
+      .function("train", (void (Discriminator::*)(const vector<int>&)) &Discriminator::train)
+      .function("train", (void (Discriminator::*)(const vector<vector<int>>&)) &Discriminator::train)
+      .function("classify", &Discriminator::getVotes)
+    ;
 
     // models
     em::class_<Wisard>("Wisard")
@@ -52,15 +53,16 @@ EMSCRIPTEN_BINDINGS(wisardpkg)
       .function("getMentalImages", &Wisard::getMentalImages)
     ;
 
-    // em::class_<ClusWisard>(m, "ClusWisard")
-    //   .def(em::init<int, float, int, int, em::kwargs>())
-    //   .def("train", (void (ClusWisard::*)(const vector<vector<int>>&, const vector<string>&)) &ClusWisard::train)
-    //   .def("train", (void (ClusWisard::*)(const vector<vector<int>>&, map<int, string>&)) &ClusWisard::train)
-    //   .def("trainUnsupervised", &ClusWisard::trainUnsupervised)
-    //   .def("classify", (vector<string>& (ClusWisard::*)(const vector<vector<int>>&)) &ClusWisard::classify)
-    //   .def("classifyUnsupervised", (vector<string>& (ClusWisard::*)(const vector<vector<int>>&)) &ClusWisard::classifyUnsupervised)
-    //   .def("getMentalImage", &ClusWisard::getMentalImage)
-    //   .def("getMentalImages", &ClusWisard::getMentalImages)
-    // ;
+    em::class_<ClusWisard>("ClusWisard")
+      .constructor<int, float, int, int>()
+      .constructor<int, float, int, int, const em::val&>()
+      .function("train", (void (ClusWisard::*)(const vector<vector<int>>&, const vector<string>&)) &ClusWisard::train)
+      .function("train", (void (ClusWisard::*)(const vector<vector<int>>&, map<int, string>&)) &ClusWisard::train)
+      .function("trainUnsupervised", &ClusWisard::trainUnsupervised)
+      .function("classify", (vector<string>& (ClusWisard::*)(const vector<vector<int>>&)) &ClusWisard::classify)
+      .function("classifyUnsupervised", (vector<string>& (ClusWisard::*)(const vector<vector<int>>&)) &ClusWisard::classifyUnsupervised)
+      .function("getMentalImage", &ClusWisard::getMentalImage)
+      .function("getMentalImages", &ClusWisard::getMentalImages)
+    ;
 
 }

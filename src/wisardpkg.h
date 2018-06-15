@@ -16,6 +16,6 @@
 #include "models/wisard/discriminator.cc"
 #include "models/wisard/wisard.cc"
 
-// //cluswisard wisard_model
-// #include "models/cluswisard/cluster.cc"
-// #include "models/cluswisard/cluswisard.cc"
+//cluswisard wisard_model
+#include "models/cluswisard/cluster.cc"
+#include "models/cluswisard/cluswisard.cc"
