@@ -14,27 +14,28 @@ EMSCRIPTEN_BINDINGS(wisardpkg)
     // complex types
     em::register_vector<vector<int>>("MatrixInt");
     em::register_map<string,vector<int>>("MentalImage");
+
     // binarizations
-    // em::class_<KernelCanvas>("KernelCanvas")
-    //   .constructor<int, int>()
-    //   .constructor<int, int, int>()
-    //   .function("show", &KernelCanvas::show)
-    //   .function("__call__", (vector<int>& (KernelCanvas::*)(const vector<int>&)) &KernelCanvas::operator())
-    //   .function("__call__", (vector<vector<int>>& (KernelCanvas::*)(const vector<vector<int>>&)) &KernelCanvas::operator())
-    // ;
-    //
-    // em::class_<AverageEntry>("AverageEntry")
-    //   .constructor()
-    //   .function("__call__", (vector<int>& (AverageEntry::*)(const vector<int>&)) &AverageEntry::operator())
-    //   .function("__call__", (vector<double>& (AverageEntry::*)(const vector<double>&)) &AverageEntry::operator())
-    // ;
-    //
-    // //sythesizer
-    // em::class_<Synthesizer>("Synthesizer")
-    //   .constructor<vector<int>>()
-    //   .function("make", &Synthesizer::make)
-    // ;
-    //
+    em::class_<KernelCanvas>("KernelCanvas")
+      .constructor<int, int>()
+      .constructor<int, int, int>()
+      .function("show", &KernelCanvas::show)
+      .function("__call__", (vector<int>& (KernelCanvas::*)(const vector<int>&)) &KernelCanvas::operator())
+      .function("__call__", (vector<vector<int>>& (KernelCanvas::*)(const vector<vector<int>>&)) &KernelCanvas::operator())
+    ;
+
+    em::class_<AverageEntry>("AverageEntry")
+      .constructor()
+      .function("__call__", (vector<int>& (AverageEntry::*)(const vector<int>&)) &AverageEntry::operator())
+      .function("__call__", (vector<double>& (AverageEntry::*)(const vector<double>&)) &AverageEntry::operator())
+    ;
+
+    //sythesizer
+    em::class_<Synthesizer>("Synthesizer")
+      .constructor<vector<int>>()
+      .function("make", &Synthesizer::make)
+    ;
+
     // //base to models
     em::class_<Discriminator>("Discriminator")
       .constructor<int,int>()

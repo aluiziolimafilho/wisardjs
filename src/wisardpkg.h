@@ -5,11 +5,11 @@
 #include "common/bleaching.cc"
 
 //synthesizers
-// #include "synthetic_data/synthesizers.cc"
-//
-// //binarization
-// #include "binarization/kernelcanvas.cc"
-// #include "binarization/averageentry.cc"
+#include "synthetic_data/synthesizers.cc"
+
+//binarization
+#include "binarization/kernelcanvas.cc"
+#include "binarization/averageentry.cc"
 
 //wisard model
 #include "models/wisard/ram.cc"
