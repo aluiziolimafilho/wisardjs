@@ -3,5 +3,3 @@
 
 #compiled
 dist/*
-test/wisard.js
-test/wisard.wasm

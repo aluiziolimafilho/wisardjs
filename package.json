@@ -1,0 +1,27 @@
+{
+  "name": "wisardjs",
+  "version": "1.0.0",
+  "description": "A set of Learning Models based on WiSARD",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-dist": "if [ ! -d 'dist' ]; then mkdir dist; fi",
+    "build": "npm run test-dist && emcc --bind -o dist/wisard.js src/wisard_bind.cc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aluiziolimafilho/wisardjs.git"
+  },
+  "keywords": [
+    "wisard"
+  ],
+  "author": "Aluizio Lima Filho",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aluiziolimafilho/wisardjs/issues"
+  },
+  "homepage": "https://github.com/aluiziolimafilho/wisardjs#readme"
+}
