@@ -100,7 +100,21 @@ public:
 
   }
 
-  void trainUnsupervised(const vector<vector<int>>& images){
+  void train( const em::val& images_val, const em::val& labels_val){
+    vector<vector<int>> images = matrixFromJSMatrix<int>(images_val);
+
+    if(labels_val.typeof().as<string>() == "array"){
+      vector<string> labels = em::vecFromJSArray<string>(labels_val);
+      train(images, labels);
+    }
+    else{
+      map<int, string> labels = dictFromJSObject(labels_val, images.size());
+      train(images, labels);
+    }
+  }
+
+  void trainUnsupervised(const em::val& images_val){
+    vector<vector<int>> images = matrixFromJSMatrix<int>(images_val);
     if((int)clusters.size()==0){
       unsupervisedCluster = Cluster(images[0].size(), addressSize, minScore, threshold, discriminatorsLimit, completeAddressing, ignoreZero);
     }
@@ -132,7 +146,9 @@ public:
   }
 
 
-  vector<string>& classifyUnsupervised(const vector<vector<int>>& images){
+  vector<string>& classifyUnsupervised(const em::val& images_val){
+    vector<vector<int>> images = matrixFromJSMatrix<int>(images_val);
+
     vector<string>* labels = new vector<string>(images.size());
     for(unsigned int i=0; i<images.size(); i++){
       if(verbose) cout << "\rclassifying unsupervised " << i+1 << " of " << images.size();
@@ -147,7 +163,9 @@ public:
     return *labels;
   }
 
-  vector<string>& classify(const vector<vector<int>>& images){
+  vector<string>& classify(const em::val& images_val){
+    vector<vector<int>> images = matrixFromJSMatrix<int>(images_val);
+
     vector<string>* labels = new vector<string>(images.size());
     for(unsigned int i=0; i<images.size(); i++){
       if(verbose) cout << "\rclassifying " << i+1 << " of " << images.size();

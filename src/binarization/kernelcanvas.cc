@@ -60,7 +60,8 @@ public:
   }
 
 
-  vector<vector<int>>& operator()(const vector<vector<int>>& entries){
+  vector<vector<int>>& operator()(const em::val& entries_val){
+    vector<vector<int>> entries = matrixFromJSMatrix<int>(entries_val);
     vector<vector<int>>* outputs = new vector<vector<int>>(entries.size());
     for(unsigned int i=0; i<entries.size(); i++){
       (*outputs)[i] = operator()(entries[i]);

@@ -37,3 +37,14 @@ vector<vector<T>> matrixFromJSMatrix(const em::val& matrix){
 
   return output;
 }
+
+map<int, string> dictFromJSObject(const em::val& object, const int max){
+  map<int, string> labels;
+  for(int i=0; i<max; i++){
+    const string key = to_string(i);
+    if(object.hasOwnProperty(key.c_str())){
+      labels[i] = object[key].as<string>();
+    }
+  }
+  return labels;
+}

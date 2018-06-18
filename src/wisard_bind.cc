@@ -14,14 +14,14 @@ EMSCRIPTEN_BINDINGS(wisardpkg)
     // complex types
     em::register_vector<vector<int>>("MatrixInt");
     em::register_map<string,vector<int>>("MentalImage");
+    em::register_map<string,vector<vector<int>>>("MentalImages");
 
     // binarizations
     em::class_<KernelCanvas>("KernelCanvas")
       .constructor<int, int>()
       .constructor<int, int, int>()
       .function("show", &KernelCanvas::show)
-      .function("__call__", (vector<int>& (KernelCanvas::*)(const vector<int>&)) &KernelCanvas::operator())
-      .function("__call__", (vector<vector<int>>& (KernelCanvas::*)(const vector<vector<int>>&)) &KernelCanvas::operator())
+      .function("__call__", (vector<vector<int>>& (KernelCanvas::*)(const em::val&)) &KernelCanvas::operator())
     ;
 
     em::class_<AverageEntry>("AverageEntry")
@@ -57,11 +57,10 @@ EMSCRIPTEN_BINDINGS(wisardpkg)
     em::class_<ClusWisard>("ClusWisard")
       .constructor<int, float, int, int>()
       .constructor<int, float, int, int, const em::val&>()
-      .function("train", (void (ClusWisard::*)(const vector<vector<int>>&, const vector<string>&)) &ClusWisard::train)
-      .function("train", (void (ClusWisard::*)(const vector<vector<int>>&, map<int, string>&)) &ClusWisard::train)
+      .function("train", (void (ClusWisard::*)(const em::val&, const em::val&)) &ClusWisard::train)
       .function("trainUnsupervised", &ClusWisard::trainUnsupervised)
-      .function("classify", (vector<string>& (ClusWisard::*)(const vector<vector<int>>&)) &ClusWisard::classify)
-      .function("classifyUnsupervised", (vector<string>& (ClusWisard::*)(const vector<vector<int>>&)) &ClusWisard::classifyUnsupervised)
+      .function("classify", (vector<string>& (ClusWisard::*)(const em::val&)) &ClusWisard::classify)
+      .function("classifyUnsupervised", (vector<string>& (ClusWisard::*)(const em::val&)) &ClusWisard::classifyUnsupervised)
       .function("getMentalImage", &ClusWisard::getMentalImage)
       .function("getMentalImages", &ClusWisard::getMentalImages)
     ;
