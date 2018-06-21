@@ -1,6 +1,6 @@
 {
   "name": "@iazero/wisardjs",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A set of Learning Models based on WiSARD",
   "main": "dist/wisard.js",
   "directories": {
