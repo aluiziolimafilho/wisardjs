@@ -2,7 +2,7 @@
 
 var path = false;
 
-if(process){
+if(typeof process != 'undefined'){
   var folder_origin = process.cwd();
   var node_module_path = 'node_modules/@iazero/wisardjs/dist';
   var dist_path = 'dist';
