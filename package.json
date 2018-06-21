@@ -1,15 +1,16 @@
 {
   "name": "@iazero/wisardjs",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "A set of Learning Models based on WiSARD",
-  "main": "index.js",
+  "main": "dist/wisard.js",
   "directories": {
-    "test": "test"
+    "test": "test",
+    "dist": "dist"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "test-dist": "if [ ! -d 'dist' ]; then mkdir dist; fi",
-    "build": "npm run test-dist && emcc --bind -o dist/wisard.js src/wisard_bind.cc"
+    "build": "npm run test-dist && emcc --bind -o dist/wisard.js src/wisard_bind.cc --pre-js src/js/pre.js --post-js src/js/post.js"
   },
   "repository": {
     "type": "git",
