@@ -4,15 +4,9 @@ var path = false;
 
 if(typeof process != 'undefined'){
   var folder_origin = process.cwd();
-  var node_module_path = 'node_modules/@iazero/wisardjs/dist';
-  var dist_path = 'dist';
+  var node_module_path = __dirname;
   try {
     process.chdir(node_module_path);
     path = true;
-  } catch(e){
-    try {
-      process.chdir(dist_path);
-      path = true;
-    } catch(e){}
-  }
+  } catch(e){}
 }
