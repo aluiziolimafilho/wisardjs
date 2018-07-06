@@ -10,7 +10,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "test-dist": "if [ ! -d 'dist' ]; then mkdir dist; fi",
-    "build": "npm run test-dist && emcc --bind -o dist/wisard.js src/wisard_bind.cc --pre-js src/js/pre.js --post-js src/js/post.js"
+    "build": "npm run test-dist && emcc -O3 --bind -o dist/wisard.js src/wisard_bind.cc --pre-js src/js/pre.js --post-js src/js/post.js"
   },
   "repository": {
     "type": "git",
